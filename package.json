@@ -1,0 +1,55 @@
+{
+  "name": "LearnGitBranching",
+  "version": "0.8.0",
+  "description": "An interactive git visualization to challenge and educate!",
+  "homepage": "https://learngitbranching.js.org",
+  "packageManager": "yarn@1.22.22",
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "author": "Peter Cottle <petermcottle@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "preinstall": "node scripts/check-package-manager.js",
+    "generate": "node scripts/generate.js",
+    "predev": "node scripts/generate.js",
+    "prebuild": "node scripts/generate.js",
+    "pretest": "node scripts/generate.js",
+    "build": "yarn test && vite build && node scripts/postbuild.js",
+    "dev": "vite",
+    "test": "jasmine",
+    "test:coverage": "nyc jasmine",
+    "lint": "eslint src __tests__ scripts vite.config.mjs eslint.config.js",
+    "lint:fix": "yarn lint --fix",
+    "lint:strings": "node src/js/intl/checkStrings",
+    "docs:levels": "node scripts/generateLevelDocs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pcottle/learnGitBranching"
+  },
+  "devDependencies": {
+    "@originjs/vite-plugin-commonjs": "^1.0.3",
+    "eslint": "^10.12.0",
+    "globals": "^17.13.0",
+    "jasmine": "^4.6.0",
+    "nyc": "^18.0.0",
+    "prompt": "^1.2.2",
+    "vite": "^8.3.4",
+    "vite-plugin-node-polyfills": "^0.28.0"
+  },
+  "dependencies": {
+    "flux": "^4.0.3",
+    "jquery": "^3.4.0",
+    "jquery-ui": "1.13.2",
+    "marked": "^18.1.0",
+    "prop-types": "^15.8.1",
+    "raphael": "^2.1.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "underscore": "^1.13.8"
+  },
+  "resolutions": {
+    "esbuild": "0.28.1"
+  }
+}

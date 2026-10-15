@@ -1,0 +1,46 @@
+name: LazyCat LPK
+
+on:
+  schedule:
+    # Daily auto-update; GitHub Actions cron is UTC (CST = UTC+8)
+    - cron: "23 7 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    outputs:
+      next: ${{ steps.bump.outputs.next }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 20
+      - id: bump
+        name: Calculate next patch version
+        shell: bash
+        run: |
+          current="$(sed -n 's/^version:[[:space:]]*//p' package.yml)"
+          next="$(node -e 'const [a,b,c]=process.argv[1].split(".").map(Number); if (![a,b,c].every(Number.isInteger)) process.exit(1); process.stdout.write(`${a}.${b}.${c+1}`)' "${current}")"
+          echo "next=${next}" >> "${GITHUB_OUTPUT}"
+
+  lazycat:
+    needs: version
+    uses: ca-x/lazycat-github-action/.github/workflows/lazycat.yml@v1
+    with:
+      operation: auto
+      config: .github/lazycat-action.yml
+      version: ${{ needs.version.outputs.next }}
+      versioned-release-asset: true
+      toolchains: node
+      node-version: 20
+      node-package-manager: yarn
+    secrets:
+      APPSTORE_URL: ${{ secrets.APPSTORE_URL }}
+      APPSTORE_TOKEN: ${{ secrets.APPSTORE_TOKEN }}
+      APP_ID: ${{ secrets.APP_ID }}
+      PRIVATE_STORE_GROUP_CODES: ${{ secrets.PRIVATE_STORE_GROUP_CODES }}
