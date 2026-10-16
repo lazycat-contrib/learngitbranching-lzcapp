@@ -1,5 +1,5 @@
 package: community.lazycat.app.learngitbranching
-version: 0.1.1
+version: 0.1.2
 name: LearnGitBranching
 description: 交互式 Git 可视化学习工具，通过闯关练习掌握分支、合并与 rebase
 min_os_version: 1.5.0
